@@ -22,6 +22,7 @@
   "dependencies": {
     "@aws-sdk/client-cost-explorer": "^3.515.0",
     "aws-cdk-lib": "2.117.0",
+    "axios": "^1.6.7",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }
