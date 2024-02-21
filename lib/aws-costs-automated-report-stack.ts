@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { Stack, StackProps, Tags } from "aws-cdk-lib";
+import { Stack, StackProps, Tags, Duration } from "aws-cdk-lib";
 import { Rule, Schedule } from "aws-cdk-lib/aws-events";
 import { LambdaFunction } from "aws-cdk-lib/aws-events-targets";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
@@ -12,7 +12,7 @@ export class AwsCostsAutomatedReportStack extends Stack {
     super(scope, id, props);
 
     const lambda = new NodejsFunction(this, "generateCostReportLambda", {
-      entry: "src/generateCostReport",
+      entry: "src/generateCostReport.ts",
       handler: "handler",
       functionName: "GenerateCostReportLambda",
       description: "Lambda for generating AWS spending report",
@@ -21,6 +21,7 @@ export class AwsCostsAutomatedReportStack extends Stack {
       environment: {
         SLACK_CHANNEL_ID: process.env.SLACK_CHANNEL_ID || "",
       },
+      timeout: Duration.seconds(5),
     });
 
     // Adding permissions to access Cost Explorer
@@ -32,7 +33,11 @@ export class AwsCostsAutomatedReportStack extends Stack {
     );
 
     const rule = new Rule(this, "generateCostReportRule", {
-      schedule: Schedule.cron({ weekDay: "MON" }),
+      schedule: Schedule.cron({
+        minute: "0",
+        hour: "10",
+        weekDay: "4",
+      }),
     });
 
     rule.addTarget(new LambdaFunction(lambda));
