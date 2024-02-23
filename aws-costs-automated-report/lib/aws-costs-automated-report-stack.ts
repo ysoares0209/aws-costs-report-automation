@@ -36,7 +36,7 @@ export class AwsCostsAutomatedReportStack extends Stack {
       schedule: Schedule.cron({
         minute: "0",
         hour: "10",
-        weekDay: "4",
+        weekDay: "2",
       }),
     });
 
