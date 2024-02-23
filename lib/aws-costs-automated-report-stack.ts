@@ -42,7 +42,11 @@ export class AwsCostsAutomatedReportStack extends Stack {
 
     rule.addTarget(new LambdaFunction(lambda));
 
-    Tags.of(this).add("owners", "v6-team");
-    Tags.of(lambda).add("domain", "reports");
+    Tags.of(this).add("name", "costsReport");
+    Tags.of(this).add("functionality", "automated-reports");
+    Tags.of(lambda).add("name", "costsReport");
+    Tags.of(lambda).add("functionality", "automated-reports");
+    Tags.of(rule).add("name", "costsReport");
+    Tags.of(rule).add("functionality", "automated-reports");
   }
 }
